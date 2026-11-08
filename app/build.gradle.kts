@@ -49,9 +49,11 @@ android {
     buildTypes {
         release {
             if (hasReleaseSigning) signingConfig = signingConfigs.getByName("release")
+            // R8 최적화는 끈다. packageScope로 kotlin.** 를 최적화하면 Kotlin 표준 라이브러리의
+            // 패키지 전용 클래스(CollectionsKt__IterablesKt 등)가 다른 패키지로 옮겨져
+            // 시작하자마자 IllegalAccessError로 크래시한다. (debug와 같은 코드로 동작하게 유지)
             optimization {
-                enable = true
-                packageScope = setOf("androidx.**", "kotlin.**", "kotlinx.**")
+                enable = false
             }
         }
     }
