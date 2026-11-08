@@ -1,43 +1,19 @@
 # 렌트로그 (RentLog) 프로토타입
 
 ![CI](https://github.com/Hyundaimotor-Appdevchallenge/Rentlog_Prototype/actions/workflows/android-ci.yml/badge.svg)
-
+## 앱 이름 및 한 줄 소개
 Pleos Connect 차량용 **렌터카 인수·운행·반납 기록 앱**입니다. 차량 신호(주행거리, 배터리, 문·창문, 경고등)를 자동으로 기록해서 인수 때와 반납 때를 비교하고, 요금 정산과 명세서까지 만들어 줍니다. 서버는 앱 안의 가짜 서버(`FakeBackend`)이고, 실제 서버는 아직 연결하지 않았습니다.
 
+### 화면 흐름
+
+F-01 대여 시작·본인 확인 → F-02 출발 전 검수 → F-03 주행 중 → (F-04 주의 경고 → F-05 정차 후 대응 / F-10 긴급 경고) → F-06 반납 전 안내 → F-07 반납 검수 → F-11 반납 완료 → 명세서. 오류 화면은 F-08(예약 없음 · 확인 잠김 · 연결 끊김)입니다.
 | F-01 본인 확인 | F-02 출발 전 검수 | F-03 주행 중 |
 |---|---|---|
 | ![F-01](docs/images/f01-verify.png) | ![F-02](docs/images/f02-inspection.png) | ![F-03](docs/images/f03-driving.png) |
 
 | F-10 긴급 경고 | F-07 반납 검수 | F-11 반납 완료 |
 |---|---|---|
-| ![F-10](docs/images/f10-emergency.png) | ![F-07](docs/images/f07-return-inspection.png) | ![F-11](docs/images/f11-return-complete.png) |
-
-## 화면 흐름
-
-F-01 대여 시작·본인 확인 → F-02 출발 전 검수 → F-03 주행 중 → (F-04 주의 경고 → F-05 정차 후 대응 / F-10 긴급 경고) → F-06 반납 전 안내 → F-07 반납 검수 → F-11 반납 완료 → 명세서. 오류 화면은 F-08(예약 없음 · 확인 잠김 · 연결 끊김)입니다.
-
-## 개발 환경과 SDK
-
-| 항목 | 버전 |
-|---|---|
-| Kotlin | 2.2.10 |
-| Android Gradle Plugin | 9.5.1 |
-| Jetpack Compose BOM | 2026.02.01 (Material3) |
-| compileSdk / targetSdk / minSdk | 37 / 37 / 28 |
-| Java 타깃 | 11 (Gradle 툴체인이 자동으로 JDK를 받습니다. Android Studio 내장 JDK 권장) |
-| 코루틴 / ViewModel | 1.9.0 / 2.8.7 |
-
-**Pleos SDK** (`gradle/libs.versions.toml`)
-
-| 라이브러리 | 버전 | 용도 |
-|---|---|---|
-| `ai.pleos.playground:Vehicle` | 2.3.2 | 주행거리·배터리·기어·문·창문·경고등(telltale) 읽기 |
-| `ai.pleos.playground:TextToSpeech` | 3.3.1 | 음성 안내 |
-| `ai.pleos.playground:NaviHelper` | 3.0.5 | 반납 장소 내비 호출 |
-
-- 저장소: `https://nexus-playground.pleos.ai/repository/maven-releases/` (`settings.gradle.kts`에 이미 등록됨)
-- 권한(`AndroidManifest.xml`): `CAR_DRIVE`, `CAR_ENERGY`, `CAR_SAFETY`, `PRIVATE_CAR_SAFETY`, `CAR_INFO`, `CAR_DOORS`, `CAR_WINDOWS`, `CAR_LIGHTS`, `TTS_SERVICE`, `NAVI_ROUTE_SEARCH`
-- `PRIVATE_CAR_SAFETY`는 경고등 읽기에 필요합니다. **스토어 제출 시 Pleos App Market 사전 승인이 필요합니다.**
+| ![F-10](docs/images/f10-emergency.png) | ![F-07](docs/images/f07-return-inspection.png) | ![F-11](docs/images/f11-return-complete.png) |\
 
 ## 실행 방법
 
@@ -96,7 +72,30 @@ open http://127.0.0.1:8088/      # 이 탭을 열어 두어야 콘솔이 활성�
   - **비행기 모드를 켜면 콘솔이 먹통**이 됩니다. 연결 끊김 시연은 영상의 마지막에 하고, 이후 Cold Boot로 복구합니다.
   - 전기차라 화면의 "연료"는 배터리 SOC입니다. 브레이크 경고등이 없어 **ABS를 긴급 경고**로 씁니다.
 
-## 테스트 방법
+## 테스트 환경 및 필요한 설정
+
+| 항목 | 버전 |
+|---|---|
+| Kotlin | 2.2.10 |
+| Android Gradle Plugin | 9.5.1 |
+| Jetpack Compose BOM | 2026.02.01 (Material3) |
+| compileSdk / targetSdk / minSdk | 37 / 37 / 28 |
+| Java 타깃 | 11 (Gradle 툴체인이 자동으로 JDK를 받습니다. Android Studio 내장 JDK 권장) |
+| 코루틴 / ViewModel | 1.9.0 / 2.8.7 |
+
+**Pleos SDK** (`gradle/libs.versions.toml`)
+
+| 라이브러리 | 버전 | 용도 |
+|---|---|---|
+| `ai.pleos.playground:Vehicle` | 2.3.2 | 주행거리·배터리·기어·문·창문·경고등(telltale) 읽기 |
+| `ai.pleos.playground:TextToSpeech` | 3.3.1 | 음성 안내 |
+| `ai.pleos.playground:NaviHelper` | 3.0.5 | 반납 장소 내비 호출 |
+
+- 저장소: `https://nexus-playground.pleos.ai/repository/maven-releases/` (`settings.gradle.kts`에 이미 등록됨)
+- 권한(`AndroidManifest.xml`): `CAR_DRIVE`, `CAR_ENERGY`, `CAR_SAFETY`, `PRIVATE_CAR_SAFETY`, `CAR_INFO`, `CAR_DOORS`, `CAR_WINDOWS`, `CAR_LIGHTS`, `TTS_SERVICE`, `NAVI_ROUTE_SEARCH`
+- `PRIVATE_CAR_SAFETY`는 경고등 읽기에 필요합니다. **스토어 제출 시 Pleos App Market 사전 승인이 필요합니다.**
+
+### 테스트 방법
 
 | 종류 | 명령 | 소요 | 비고 |
 |---|---|---|---|
@@ -109,34 +108,5 @@ open http://127.0.0.1:8088/      # 이 탭을 열어 두어야 콘솔이 활성�
 - 에뮬레이터는 `TIRE_PRESSURE`를 지원하지 않아 타이어 kPa 항목은 SKIP으로 나옵니다(TPMS 경고등으로 대신 검증).
 - 최신 결과: [`docs/테스트_결과.md`](docs/테스트_결과.md)
 
-## 폴더 구조
-
-```
-app/src/main/java/com/example/pleosrantlog/
-├─ RentLogApp.kt            수동 DI (AppDeps 생성)
-├─ MainActivity.kt
-├─ ui/                      AppViewModel, AppState(Screen·UiState), screens/, components/, theme/, demo/
-└─ data/
-   ├─ backend/              FakeBackend, FeeCalculator, HashChain (가짜 서버, 요금, 기록 검증 코드)
-   ├─ vehicle/              Pleos SDK 래퍼 + 시뮬레이터 폴백 + VehicleMapping
-   ├─ voice/ navi/ net/     TTS, 내비 호출, 네트워크 상태
-   └─ model/                도메인 모델
-app/src/test, androidTest   단위·계측 테스트
-scripts/                    E2E·자동 시연 (Python)
-docs/                       시연 시나리오, 인수인계, 개발·AI 코딩 가이드
-```
-
-## 문서
-
-| 문서 | 내용 |
-|---|---|
-| [docs/시연_시나리오.md](docs/시연_시나리오.md) | 시연 영상 촬영 순서, 콘솔 명령, 스크립트 사용법 |
-| [docs/인수인계.md](docs/인수인계.md) | 구조, 설계 결정, 임시값과 남은 일 |
-| [docs/개발_가이드.md](docs/개발_가이드.md) | 브랜치·커밋 규칙, 기능 추가 순서, PR 체크리스트 |
-| [docs/AI_코딩_가이드.md](docs/AI_코딩_가이드.md) | Claude Code·Codex로 개발할 때 지킬 것 |
-| [docs/테스트_결과.md](docs/테스트_결과.md) | 테스트 기준선 |
-
-## 알려진 한계
-- 서버는 가짜(`FakeBackend`)입니다. 업체 전화번호(02-1234-5678), 정비소·반납 장소 이름은 임시값입니다.
-- `applicationId`가 `com.example.pleosrantlog`입니다. release 서명은 `keystore.properties`로 설정합니다(위 "릴리즈 APK 만들기").
-- 데모 패널(제목 길게 누르기)은 일반 에뮬레이터용이며, 시연 영상에서는 쓰지 않습니다.
+## APK 파일 위치 또는 GitHub Release 링크
+APK 파일 위치 : apk/팀명_앱이름_release.apk
