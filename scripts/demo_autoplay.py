@@ -106,14 +106,21 @@ def main():
         wait_sub(["확인 완료"], 15)
         wait_sub(["출동 접수됨"], 20)
 
+    def set_return_values():
+        # F-06은 출발 약 60초 뒤 운행 화면에 '뜨는 순간의 값'으로 고정된다.
+        # --pause 가 길면 운행 화면으로 돌아오자마자 F-06이 뜨므로, 돌아오기 전에 값을 넣어 둔다.
+        if d.odometer() < ctx["pickup"] + DRIVE_KM:
+            d.set_odometer(ctx["pickup"] + DRIVE_KM)
+        d.set_soc(62)
+
     def s_ack():
+        set_return_values()
         d.tap_text("확인했어요 · 운행 화면으로")
         wait_sub(["기록 중 · 이상 없음"], 15)
         d.set_telltale("ABS", False)
 
     def s_f06():
-        d.set_odometer(ctx["pickup"] + DRIVE_KM)
-        d.set_soc(62)
+        set_return_values()
         wait_sub(["반납까지 2시간 남았어요"], 150)
         wait_sub(["67,760원"], 15)
 
