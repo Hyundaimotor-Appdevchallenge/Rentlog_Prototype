@@ -4,7 +4,7 @@
 ## 앱 이름 및 한 줄 소개
 Pleos Connect 차량용 **렌터카 인수·운행·반납 기록 앱**입니다. 차량 신호(주행거리, 배터리, 문·창문, 경고등)를 자동으로 기록해서 인수 때와 반납 때를 비교하고, 요금 정산과 명세서까지 만들어 줍니다. 서버는 앱 안의 가짜 서버(`FakeBackend`)이고, 실제 서버는 아직 연결하지 않았습니다.
 
-### 화면 흐름
+#### 화면 흐름
 
 F-01 대여 시작·본인 확인 → F-02 출발 전 검수 → F-03 주행 중 → (F-04 주의 경고 → F-05 정차 후 대응 / F-10 긴급 경고) → F-06 반납 전 안내 → F-07 반납 검수 → F-11 반납 완료 → 명세서. 오류 화면은 F-08(예약 없음 · 확인 잠김 · 연결 끊김)입니다.
 | F-01 본인 확인 | F-02 출발 전 검수 | F-03 주행 중 |
@@ -17,18 +17,18 @@ F-01 대여 시작·본인 확인 → F-02 출발 전 검수 → F-03 주행 중
 
 ## 실행 방법
 
-### 1. 프로젝트 열기
+#### 1. 프로젝트 열기
 1. Android Studio 최신 버전에서 이 폴더를 엽니다. Gradle Sync가 끝날 때까지 기다립니다.
 2. SDK Manager에서 **Android 37** SDK와 Platform-Tools, Emulator를 설치합니다.
 3. `local.properties`는 Android Studio가 자동으로 만듭니다(커밋하지 않습니다).
 
-### 2. Pleos Connect 에뮬레이터 켜기
+#### 2. Pleos Connect 에뮬레이터 켜기
 1. Device Manager에서 **`Pleos_Connect_v2.1.0`** AVD를 준비합니다(Pleos 제공 시스템 이미지. RAM 4GB 이상).
 2. AVD 오른쪽 ▼ 메뉴 → **Cold Boot Now**로 켭니다. 일반 Run으로 켜면 이전 상태(주행거리 등)가 남을 수 있습니다.
 3. 터미널로 켜려면: `~/Library/Android/sdk/emulator/emulator -avd Pleos_Connect_v2.1.0 -no-snapshot-load`
 4. 일반 폰 에뮬레이터(예: `Medium_Phone`)에서도 앱은 실행됩니다. 이때는 Pleos 서비스가 없어서 **시뮬레이터 값으로 자동 전환**됩니다(데모 패널 사용).
 
-### 3. 앱 설치·실행
+#### 3. 앱 설치·실행
 - Android Studio에서 Run ▶, 또는 터미널에서:
 ```bash
 ./gradlew assembleDebug
@@ -37,7 +37,7 @@ adb shell am start -n com.example.pleosrantlog/.MainActivity
 ```
 - 앱 안의 가짜 서버는 앱을 다시 시작하면 초기화됩니다. **본인 확인 번호는 `1234`**, 대상 차량 번호는 `12가3456`입니다.
 
-### 릴리즈 APK 만들기
+#### 릴리즈 APK 만들기
 제출용 APK는 `apk/팀명_앱이름_release.apk`에 둡니다(파일명은 `app/build.gradle.kts`의 `releaseApkName`).
 1. 키스토어를 만듭니다(처음 한 번). Android Studio **Build > Generate Signed App Bundle or APK > APK > Create new...**에서 만들고 창은 닫아도 됩니다. 저장 위치는 저장소 **밖**을 권장합니다.
 2. 프로젝트 루트에 `keystore.properties`를 만듭니다. **커밋 금지(공개 저장소)**, `.gitignore`에 등록되어 있습니다.
@@ -58,7 +58,7 @@ adb shell am start -n com.example.pleosrantlog/.MainActivity
    ```
 - 키스토어 파일과 비밀번호를 잃어버리면 같은 앱으로 업데이트할 수 없으니 팀 내에서 안전하게 보관하세요.
 
-### 4. Virtual Console로 차량 신호 조작
+#### 4. Virtual Console로 차량 신호 조작
 Pleos Connect 에뮬레이터는 웹 기반 Virtual Console(8088 포트)로 차량 값을 바꿉니다.
 ```bash
 adb forward tcp:8088 tcp:8088
@@ -95,7 +95,7 @@ open http://127.0.0.1:8088/      # 이 탭을 열어 두어야 콘솔이 활성�
 - 권한(`AndroidManifest.xml`): `CAR_DRIVE`, `CAR_ENERGY`, `CAR_SAFETY`, `PRIVATE_CAR_SAFETY`, `CAR_INFO`, `CAR_DOORS`, `CAR_WINDOWS`, `CAR_LIGHTS`, `TTS_SERVICE`, `NAVI_ROUTE_SEARCH`
 - `PRIVATE_CAR_SAFETY`는 경고등 읽기에 필요합니다. **스토어 제출 시 Pleos App Market 사전 승인이 필요합니다.**
 
-### 테스트 방법
+#### 테스트 방법
 
 | 종류 | 명령 | 소요 | 비고 |
 |---|---|---|---|
