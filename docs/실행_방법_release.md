@@ -31,6 +31,27 @@ adb·emulator 기본 위치
 | Windows | `%LOCALAPPDATA%\Android\Sdk\platform-tools\adb.exe` | `%LOCALAPPDATA%\Android\Sdk\emulator\emulator.exe` |
 | macOS | `~/Library/Android/sdk/platform-tools/adb` | `~/Library/Android/sdk/emulator/emulator` |
 
+이 문서의 명령은 `adb`, `emulator`가 PATH에 있다고 가정합니다. Windows PowerShell에서 `'adb' 용어가 cmdlet ... 인식되지 않습니다`가 나오면 PATH에 추가하세요.
+
+```powershell
+# 지금 열린 터미널에서만
+$env:Path += ";$env:LOCALAPPDATA\Android\Sdk\platform-tools;$env:LOCALAPPDATA\Android\Sdk\emulator"
+
+# 영구 등록 (실행 후 터미널을 새로 열기)
+[Environment]::SetEnvironmentVariable("Path", [Environment]::GetEnvironmentVariable("Path","User") + ";$env:LOCALAPPDATA\Android\Sdk\platform-tools;$env:LOCALAPPDATA\Android\Sdk\emulator", "User")
+```
+
+Windows PowerShell에서 bash와 다른 점
+
+| bash (이 문서) | PowerShell |
+|---|---|
+| `adb shell pm list packages \| grep pleosrantlog` | `adb shell "pm list packages \| grep pleosrantlog"` (grep을 기기 안에서 실행) |
+| `curl -X PUT "..."` | `curl.exe -X PUT "..."` (`curl`만 쓰면 PowerShell 5.1의 `Invoke-WebRequest`가 실행됨) |
+| `C=http://...` 후 `"$C/..."` | `$C="http://..."` 후 `"$C/..."` |
+| `python3` | `python` 또는 `py -3` |
+
+Git Bash를 쓰면 이 문서의 명령을 그대로 쓸 수 있습니다(PATH 추가는 똑같이 필요).
+
 ## 2. 에뮬레이터 켜기 (Cold Boot)
 
 1. Android Studio Device Manager에서 `Pleos_Connect_v2.1.0` 오른쪽 ▼ → **Cold Boot Now**
@@ -62,9 +83,9 @@ adb shell am start -n com.example.pleosrantlog/.MainActivity
   cp apk/팀명_렌트로그_release.apk rentlog_release.apk
   adb install -r rentlog_release.apk
   ```
-- 설치 확인:
+- 설치 확인 (bash·PowerShell 공통):
   ```bash
-  adb shell pm list packages | grep pleosrantlog
+  adb shell "pm list packages | grep pleosrantlog"
   ```
 - 앱 안의 가짜 서버는 앱을 다시 시작하면 초기화됩니다. **본인 확인 번호는 `1234`**, 대상 차량 번호는 `12가3456`입니다.
 - 앱 다시 시작:

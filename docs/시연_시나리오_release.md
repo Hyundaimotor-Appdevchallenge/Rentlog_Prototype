@@ -71,6 +71,16 @@ curl -X PUT "$C/body?window_fl=50"          # 창문 열림 0~100 % (0=닫힘). 
 curl -X PUT "$C/body?trunk=false&frunk=false&door_fl=false&door_fr=false&door_rl=false&door_rr=false&window_fl=0&window_fr=0&window_rl=0&window_rr=0"
 ```
 
+Windows PowerShell에서는 `curl` 대신 **`curl.exe`**를 쓰고(PowerShell 5.1의 `curl`은 `Invoke-WebRequest`라 `-X`를 모릅니다), 변수는 `$C="http://127.0.0.1:8088/vehicle"`처럼 지정합니다.
+
+```powershell
+$C="http://127.0.0.1:8088/vehicle"
+curl.exe -X PUT "$C/odometer?traveled_distance_km=12340"
+curl.exe -X PUT "$C/gear?gear=Drive"
+```
+
+PowerShell에서 `adb`를 찾지 못하면 [`실행_방법_release.md`](실행_방법_release.md) 1절에서 PATH 추가 방법을 보세요.
+
 비행기 모드: `adb shell cmd connectivity airplane-mode enable` / `disable`
 
 ## 3. 자동 시연 (release APK)
