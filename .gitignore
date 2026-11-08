@@ -25,3 +25,11 @@ __pycache__/
 /.idea/deploymentTargetSelector.xml
 /.idea/misc.xml
 /.idea/runConfigurations.xml
+
+# release 서명 (공개 저장소: 절대 커밋 금지)
+keystore.properties
+*.jks
+*.keystore
+
+# Android Studio 서명 마법사 출력 (제출본은 apk/ 폴더에 둠)
+/app/release/
