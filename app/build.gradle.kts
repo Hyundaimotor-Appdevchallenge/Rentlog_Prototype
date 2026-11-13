@@ -7,7 +7,7 @@ plugins {
 }
 
 // 제출용 APK 파일명 (형식: 팀명_앱이름_release.apk)
-val releaseApkName = "팀명_렌트로그_release.apk"
+val releaseApkName = "렌트로그_렌트로그_release.apk"
 
 // release 서명 정보는 git에 올리지 않는 keystore.properties(프로젝트 루트)에서 읽는다
 val keystoreFile = rootProject.file("keystore.properties")

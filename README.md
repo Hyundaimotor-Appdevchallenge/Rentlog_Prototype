@@ -38,7 +38,7 @@ adb shell am start -n com.example.pleosrantlog/.MainActivity
 - 앱 안의 가짜 서버는 앱을 다시 시작하면 초기화됩니다. **본인 확인 번호는 `1234`**, 대상 차량 번호는 `12가3456`입니다.
 
 #### 릴리즈 APK 만들기
-제출용 APK는 `apk/팀명_앱이름_release.apk`에 둡니다(파일명은 `app/build.gradle.kts`의 `releaseApkName`).
+제출용 APK는 `apk/렌트로그_앱이름_release.apk`에 둡니다(파일명은 `app/build.gradle.kts`의 `releaseApkName`).
 1. 키스토어를 만듭니다(처음 한 번). Android Studio **Build > Generate Signed App Bundle or APK > APK > Create new...**에서 만들고 창은 닫아도 됩니다. 저장 위치는 저장소 **밖**을 권장합니다.
 2. 프로젝트 루트에 `keystore.properties`를 만듭니다. **커밋 금지(공개 저장소)**, `.gitignore`에 등록되어 있습니다.
    ```properties
@@ -54,7 +54,7 @@ adb shell am start -n com.example.pleosrantlog/.MainActivity
 4. 에뮬레이터에서 확인합니다. 디버그 앱이 설치되어 있으면 서명이 달라 먼저 지워야 합니다.
    ```bash
    adb uninstall com.example.pleosrantlog
-   adb install -r apk/팀명_렌트로그_release.apk
+   adb install -r apk/렌트로그_렌트로그_release.apk
    ```
 - 키스토어 파일과 비밀번호를 잃어버리면 같은 앱으로 업데이트할 수 없으니 팀 내에서 안전하게 보관하세요.
 
@@ -109,4 +109,4 @@ open http://127.0.0.1:8088/      # 이 탭을 열어 두어야 콘솔이 활성�
 - 최신 결과: [`docs/테스트_결과.md`](docs/테스트_결과.md)
 
 ## APK 파일 위치 또는 GitHub Release 링크
-APK 파일 위치 : apk/팀명_앱이름_release.apk
+APK 파일 위치 : apk/렌트로그_렌트로그_release.apk
